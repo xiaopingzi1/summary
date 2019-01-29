@@ -11,9 +11,19 @@
 <body>
   <div id="app"></div>
   <script>
-    window.$docsify = {
-      name: '',
-      repo: ''
+     window.$docsify = {
+    	el:"#app",
+      name:'List',
+      nameLink:'/',
+      repo: 'docsifyjs/docsify',
+      loadNavbar:true,
+      alias: {
+      '/.*/_sidebar.md': '/_sidebar.md'
+      },
+      loadSidebar:true,
+      subMaxLevel:2,
+      coverpage:true,
+		  coverpage:'_coverpage.md',
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
