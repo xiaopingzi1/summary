@@ -14,5 +14,7 @@
     * [webpack基本配置](./list/es6/es6)
 * vue
     * [vue基础部分](./list/vue/vue)
+* git使用
+    * [git常用指令](./list/git/git)
 * 面试题
 * 项目部分
