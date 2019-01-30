@@ -5,7 +5,7 @@
     * [css](./list/css/css)
     * [css面试题](./list/css/css_interview.md)
 * javascript
-    * [基础](./list/js_basis)
+    * [基础](./list/js/js_basis)
     * [高级](./list/js_senior)
     * [面试题](./list/js/js_interview)
 * ES6
@@ -13,8 +13,11 @@
 * webpack
     * [webpack基本配置](./list/es6/es6)
 * vue
-    * [vue基础部分](./list/vue/vue)
+    * [vue基础部分](./list/vue/vue基础)
+    * [vue案例](./list/vue/vue)
 * git使用
     * [git常用指令](./list/git/git)
 * 面试题
+    * [57面试题](./interview/57)
+    * [总结面试点](./interview/other)
 * 项目部分
