@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  var a={"name":"tom","sex":"男","age":"24"}; 
+  var b='{"name":"Mike","sex":"女","age":"29"}'; 
+  var aToStr=JSON.stringify(a);             //对象转换成字符串
+  var bToObj=JSON.parse(b);                //字符串转换成对象
+  alert(typeof(aToStr));                           //string 
+  alert(typeof(bToObj));                          //object 
+  JSON.stringify();
+  console.log(aToStr);
+  console.log(bToObj);
+  
+  </script>
+</body>
+</html>
