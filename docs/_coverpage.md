@@ -1,13 +1,9 @@
 ![logo](assets/img/5.jpg)
 
-# docsify <small>3.5</small>
+> 书山有路勤为径，学海无涯苦作舟
 
-> A magical documentation site generator.
+> Diligence is the path to the mountain of knowledge,  
+> 
+> hard-working is the boat to the endless sea of learning.
 
-- Simple and lightweight (~21kB gzipped)
-- No statically built html files
-- Multiple themes
-
-[GitHub](https://github.com/docsifyjs/docsify/)
-[Get Started](#docsify)
 ![color](assets/img/5.jpg)

@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
 </head>
 <body>
-  <div id="app"></div>
+  <div data-app id="main">加载中</div>
   <script>
      window.$docsify = {
-    	el:"#app",
+    	el:"#main",
       name:'List',
       nameLink:'/',
       repo: 'docsifyjs/docsify',
@@ -24,6 +24,8 @@
       subMaxLevel:3,
       coverpage:true,
 		  coverpage:'_coverpage.md',
+      themeColor: '#3F51B5',
+      autoHeader: true, //自动为每页增加标题
 
     // 完整配置参数
     search: {

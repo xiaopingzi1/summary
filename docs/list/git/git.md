@@ -45,6 +45,6 @@
 + 创建并切换分支
 > git checkout -b 分支名
 ## git远程共享仓库
-> git push 地址分支  将分支放到地址中
-> git pull 地址分支  从地址中将分支拿出
+> git push 地址分支  将分支放到地址中  
+> git pull 地址分支  从地址中将分支拿出  
 > git remote add origin 真实地址   origin是新的名字
