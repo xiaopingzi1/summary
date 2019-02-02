@@ -1,24 +1,30 @@
 * html
     * [html](./list/html/html)
-    * [html面试题](./list/html/html_interview.md)
 * css
     * [css](./list/css/css)
-    * [css面试题](./list/css/css_interview.md)
+    
 * javascript
     * [基础](./list/js/js_basis)
     * [高级](./list/js_senior)
-    * [面试题](./list/js/js_interview)
+* node 
+    * [node部分](./list/node/node)
 * ES6
-    * [ES6语法](./list/es6)
+    * [ES6语法](./list/es6/es6)
 * webpack
-    * [webpack基本配置](./list/es6/es6)
+    * [webpack基本配置](./list/webpack/webpack)
 * vue
     * [vue基础部分](./list/vue/vue基础)
     * [vue案例](./list/vue/vue)
+    * [vuex部分](./list/vue/vuex)
 * git使用
     * [git常用指令](./list/git/git)
 * 面试题
-    * [57面试题](./interview/57)
+    * [html面试题](./interview/html_interview.md)
+    * [css面试题](./interview/css_interview.md)
+    * [js面试题](./interview/js_interview)
+    * [js代码题](./interview/js)
+    * [面试题](./interview/57)
+    * [vue](./interview/vue)
     * [总结面试点](./interview/other)
     * [自己面试总结](./interview/myself)
 * 项目部分
