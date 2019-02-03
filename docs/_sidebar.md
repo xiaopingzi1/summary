@@ -6,6 +6,11 @@
 * javascript
     * [基础](./list/js/js_basis)
     * [高级](./list/js_senior)
+* Dom/Bom
+    * [原生dom操作](./list/Dom/dom)
+    * [bom相关](./list/Dom/bom)
+* jquery
+    * [jquery](./list/jquery/jquery)
 * node 
     * [node部分](./list/node/node)
 * ES6
