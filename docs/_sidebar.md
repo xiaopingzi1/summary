@@ -11,6 +11,11 @@
     * [bom相关](./list/Dom/bom)
 * jquery
     * [jquery](./list/jquery/jquery)
+* 移动端部分
+    * [移动端](./list/mobile/mobile)
+* http协议
+    * [http协议](./list/http/http)
+
 * node 
     * [node部分](./list/node/node)
 * ES6

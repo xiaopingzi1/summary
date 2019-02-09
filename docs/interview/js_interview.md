@@ -55,4 +55,87 @@ demoArr.forEach(function(val, index) {
   ##### 六 $(selecter).each 专门用来遍历DOMList
 
 
- 
+### 3 js如何检测变量是字符串类型，写出函数实现
+
+```js
+function a(obj){
+   return typeof(obj)=="string";
+}
+alert(a(123));
+alert(a("abc"));
+
+function b(obj){
+   return obj.constructor === String
+}
+alert(b(123));
+alert(b("abc"));
+
+function type(data){
+   return Object.prototype.toString.call(data).slice(8,-1).toLowerCase();
+}
+alert(type(123));
+alert(type("abc"));
+--------------------- 
+```
+
+### 4 如何让判断Js数据类型
+typeof、instanceof、 constructor、 prototype方法比较
+  > 1.使用typeof操作符
+
+    (1) undefined：如果这个值未定义
+    (2) boolean：如果这个值是布尔值
+    (3) string：如果这个值是字符串
+    (4) number：如果这个值是数值
+    (5) object：如果这个值是对象或null
+    (6) function：如果这个值是函数
+
+    需要注意：typeof不适合用于判断是否为数组。当使用typeof判断数组和对象的时候，都会返回object
+          可以使用isArray()来判断是否为数组。
+
+  > 2.instanceof
+
+    instanceof 运算符用来判断一个构造函数的prototype属性所指向的对象是否存在另外一个要检测对象的原型链上。需要区分大小写。
+    简单的来说，instanceof 用于判断一个变量是否某个对象的实例。
+
+```js
+　　    var arr = new Array( );
+　　　　alert(arr instanceof Array);   // 返回true
+ ```
+　　注意：instanceof只能用来判断对象和函数，不能用来判断字符串和数字等。判断它是否为字符串和数字     时，只会返回false。
+
+   > 3.constructor
+
+     constructor 属性返回对创建此对象的数组函数的引用。  
+     在JavaScript中，每个具有原型的对象都会自动获得constructor属性。
+
+```js
+// String
+var str = "字符串";
+alert(str.constructor); // function String() { [native code] 这是JavaScript的底层内部代码实现，无法显示代码细节。　　}
+alert(str.constructor === String); // true
+
+// Array
+var arr = [1, 2, 3];
+alert(arr.constructor); // function Array() { [native code] }
+alert(arr.constructor === Array); // true
+
+// Number
+var num = 5;
+alert(num.constructor); // function Number() { [native code] }
+alert(num.constructor === Number); // true
+```
+
+  > 4.prototype
+
+    以上三种方法多少都会有一些不能判断的情况。为了保证兼容性，可以通过Object.prototype.toString方法，判断某个对象值属于哪种内置类型。
+
+```js
+// 注意区分大小写
+alert(Object.prototype.toString.call(“字符串”) === ‘[object String]’) -------> true;
+alert(Object.prototype.toString.call(123) === ‘[object Number]’) -------> true;
+alert(Object.prototype.toString.call([1,2,3]) === ‘[object Array]’) -------> true;
+alert(Object.prototype.toString.call(new Date()) === ‘[object Date]’) -------> true;
+alert(Object.prototype.toString.call(function a(){}) === ‘[object Function]’) -------> true;
+alert(Object.prototype.toString.call({}) === ‘[object Object]’) -------> true;
+
+```
