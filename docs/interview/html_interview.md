@@ -97,3 +97,103 @@ sessionStorage 对象
     删除单个数据：localStorage.removeItem(key);
     删除所有数据：localStorage.clear();
     得到某个索引的key：localStorage.key(index);
+
+### 6 h5有哪些新特性?移除了哪些元素？如何处理H5新标签与浏览器的兼容问题？如何区分html和html5
+ 
+   1 html5新特性之用于绘画的canvas元素  
+   canvas 元素用于在网页上绘制图形，画布是一个矩形区域，您可以控制其每一像素。canvas 拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法。  
+
+   2 html5新特性之更加丰富强大的表单  
+   html5 拥有多个新的表单 Input 输入类型。这些新特性提供了更好的输入控制和验证。  
+   html5 也新增以下表单元素：  
+
+    <datalist>：元素规定输入域的选项列表，使用 <input> 元素的 list 属性与 <datalist> 元素的 id 绑定。
+    <keygen>：提供一种验证用户的可靠方法，标签规定用于表单的密钥对生成器字段。
+    <output>：用于不同类型的输出，比如计算或脚本输出。
+
+   HTML5 新增的表单属性：
+
+    placehoder 属性：简短的提示在用户输入值前会显示在输入域上。即我们常见的输入框默认提示，在用户输入后消失。
+    required 属性：是一个 boolean 属性。要求填写的输入域不能为空
+    pattern 属性：描述了一个正则表达式用于验证<input> 元素的值。
+    min 和 max 属性：设置元素最小值与最大值。
+    step 属性：为输入域规定合法的数字间隔。
+    height 和 width 属性：用于 image 类型的 <input> 标签的图像高度和宽度。
+    autofocus 属性：是一个 boolean 属性。规定在页面加载时，域自动地获得焦点。
+    multiple 属性：是一个 boolean 属性。规定<input> 元素中可选择多个值。
+
+  3 用于媒介的video和audio元素
+
+  4 地理定位
+
+  5 拖放
+
+    拖放（Drag 和 drop）是一种常见的特性，即抓取对象以后拖到另一个位置。
+    在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放；拖放的过程分为源对象和目标对象。源对象是指你即将拖动元素，而目标对象则是指拖动之后要放置的目标位置。
+
+  6 WEB存储
+
+  7 应用程序缓存
+
+    使用 HTML5，通过创建 cache manifest 文件，可以轻松地创建 web 应用的离线版本。
+    HTML5 引入了应用程序缓存，这意味着 web 应用可进行缓存，并可在没有因特网连接时进行访问。
+
+    应用程序缓存为应用带来三个优势：
+
+    （1）离线浏览 - 用户可在应用离线时使用它们
+    （2）速度 - 已缓存资源加载得更快
+    （3）减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源。
+
+  8  Web Workers
+   
+     当在 HTML 页面中执行脚本时，页面的状态是不可响应的，直到脚本已完成。
+
+     web worker 是运行在后台的 JavaScript，独立于其他脚本，不会影响页面的性能。
+     可以继续做任何愿意做的事情：点击、选取内容等等，而此时 web worker 在后台运行。
+
+  9 服务器发送事件
+
+    html5服务器发送事件（server-sent event）允许网页获得来自服务器的更新。
+    Server-Sent 事件 - 单向消息传递
+    Server-Sent 事件指的是网页自动获取来自服务器的更新。
+    以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过服务器发送事件，更新能够自动到达。
+
+  10 WebSocket　
+
+     WebSocket是HTML5开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。
+     在WebSocket API中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。
+     浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。
+     当你获取 Web Socket 连接后，你可以通过 send() 方法来向服务器发送数据，并通过 onmessage 事件来接收服务器返回的数据。
+
+  让浏览器识别HTML5规范中的新标签  
+    
+    IE8浏览器中还没有添加对HTML5新标签的支持，所以在IE8中无法直接展现HTML5新标签中的内容。庆幸的是IE8/IE7/IE6支持通过document.createElement方法产生的标签，可以利用这一特性让这些浏览器支持HTML5新标签，代码如下：
+     
+```js
+    var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
+    var i= e.length;
+    while (i--){
+       document.createElement(e[i])
+    }
+
+```
+
+```css
+  article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}
+  mark{background:#FF0;color:#000}
+
+```
+  html5shim框架
+
+```js
+  <!--[if lt IE 9]>
+     <script> src="http://html5shim.googlecode.com/svn/trunk/html5.js"</script>
+  <![endif]-->
+```
+
+  !DOCTYPE声明位于位于HTML文档中的第一行，处于 <html> 标签之前。告知浏览器的解析器用什么文档标准解析这个文档,可以用来区分Html和html5
+
+### 7 请描述一下 cookies，sessionStorage 和 localStorage 的区别？
+  Cookie:（不能超过4k）始终在同源的Http请求中携带（即使不需要），他在浏览器和服务器之间来回传递；后两者均只在本地保存，不会自动发给服务器；只在设置的过期时间之前有用；所有同源窗口之间使用。  
+  SessionStorge:缓存存储,存储范围大。所有的同源窗口之间共享。  
+  LocalStrage:本地存储，仅在同浏览器，同浏览页面共享。

@@ -81,3 +81,105 @@ DOM 以树结构表达 HTML 文档。
 
 * 优雅降级原则  
   争对最高级最完善的浏览器来设计网站，然后再争对浏览器测试和恢复
+
+### 7 实现不使用border，画出1px的线，在不同的浏览器下的Quicksmode(怪异模式)和CSScompat(标准模式)模式下都能保持一致的效果
+
+```html
+  <div style="height:1px;overflow:hidden;background:red"></div>
+```
+### 8 css盒模型标准模式和怪异模式
+  浏览器解析时使用标准模式还是怪异模式，与网页中的DTD声明直接相关，DTD声明定义了标准文档的类型（标准模式解析）文档类型，会使浏览器使用相关的方式加载网页并显示，忽略DTD声明，将使网页进入怪异模式（quirks mode）。
+
+  只要完整定义DOCTYPE都会触发标准模式，如果DOCTYPE缺失则在ie6/ie7/ie8下将会触发怪异模式
+    
+    标准模式：盒子总宽度=width+padding+border+margin
+    怪异模式：盒子总宽度=width(包含padding+border)+margin
+  box-sizing 
+    
+    content-box---------------------------标准模式
+    border-box-----------------------------怪异模式
+
+### 9 如何居中div，如何居中一个浮动元素，如何让绝对定位的元素居中
+  （一）元素水平居中的方式
+   
+   1）行级元素水平居中对齐（父元素设置 text-align:center）   
+   2）块级元素水平居中对齐（margin: 0 auto）  
+   3）浮动元素水平居中  
+      宽度不固定的浮动元素
+
+```js
+  htlm
+  <div class="outerbox">  
+     <div class="innerbox">我是浮动的</div>  
+  </div>  
+  
+  css
+  .outerbox{  
+    float:left;   
+    position:relative;   
+    left:50%;   
+  }   
+  .innerbox{    
+    float:left;   
+    position:relative;   
+    right:50%;   
+  }  
+```
+  ![](../assets/img/css1.jpg)
+
+  宽度固定的浮动元素
+
+```js
+    html
+  <div class="outerbox">  
+   <div>我是浮动的</div>  
+  </div> 
+
+  css
+  .outerbox{  
+    background-color:pink; /*方便看效果 */    
+    width:500px ;   
+    height:300px; /*高度可以不设*/  
+    margin: -150px 0 0 -250px; /*使用marin向左移动250px，保证元素居中*/  
+    position:relative;   /*相对定位*/  
+    left:50%;  
+    top:50%;  
+  }  
+
+```
+![](../assets/img/css2.jpg)
+
+   4）让绝对定位的元素水平居中对齐
+  
+```js
+.center{  
+   position: absolute; /*绝对定位*/  
+   width: 500px;  
+   height:300px;  
+   background: red;  
+   margin: 0 auto; /*水平居中*/  
+   left: 0; /*此处不能省略，且为0*/  
+   right: 0; /*此处不能省略，且为0*/  
+}  
+```
+
+  总结
+    水平居中的主要属性有
+
+    1. text-alin:center;
+    2. margin:0 auto
+    3. position:relative|absolute; left:50%;
+
+### 10 垂直居中
+  1）对行内元素垂直居中（height与line-height的值一样）  
+  2）对块级元素垂直居中对齐  
+  2.1 父元素高度固定的情况   
+
+    1）父元素的height与line-height值相同
+    2）需要垂直居中的元素
+        vertical-align:middle;// 垂直居中对齐
+        display:inline|inline-block 块级元素转行级元素
+  2.2 父元素高度不固定的情况  
+  父元素的padding-top和padding-bottom一样 
+
+     

@@ -497,7 +497,45 @@
         > ajax get的缓冲问题，在IE中有
           解决方案： 前端：在open准备ajax请求时，为请求的地址增加随机后缀  
           后端：后端程序中设置不允许有缓冲头信息
+  get请求
 
+```js
+//步骤一:创建异步对象
+var ajax = new XMLHttpRequest();
+//步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
+ajax.open('get','getStar.php?starName='+name);
+//步骤三:发送请求
+ajax.send();
+//步骤四:注册事件 onreadystatechange 状态改变就会调用
+ajax.onreadystatechange = function () {
+   if (ajax.readyState==4 &&ajax.status==200) {
+   //步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+　　 console.log(ajax.responseText);//输入相应的内容
+   }
+}
+
+```
+
+post请求
+
+```js
+//创建异步对象  
+var xhr = new XMLHttpRequest();
+//设置请求的类型及url
+//post请求一定要添加请求头才行不然会报错
+xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+ xhr.open('post', '02.post.php' );
+//发送请求
+xhr.send('name=fox&age=18');
+xhr.onreadystatechange = function () {
+    // 这步为判断服务器是否正确响应
+  if (xhr.readyState == 4 && xhr.status == 200) {
+    console.log(xhr.responseText);
+  } 
+};
+
+
+```
 
 ## 3 bootstrap
   * 介绍  
@@ -779,3 +817,20 @@
       console.log(person instanceof Person); // false
 
   ```
+
+## 5 微信小程序的优劣势
+微信小程序的优势
+
+　　1、对用户使用上来说，确实方便，要用的时候打开，不用的时候关掉，即用即走。这点比需要下载，还要占用手机内存空间的APP要好。  
+　　2、主要的样式代码都封装在微信小程序里面，所以打开速度比普通的H5要快，接近原生APP。  
+　　3、可以调用比H5更多的手机系统功能来进行开发，例如GPS定位、录音、拍视频、重力感应等，能开发更丰富的使用场景。  
+　　4、在安卓手机上可以添加到手机桌面，看上去跟原生APP差不多，但仅限安卓手机，iphone就不行了。  
+　　5、运行速度跟APP差不多，也能做出很多H5不做到的功能，开发成本跟H5差不多，相对来说开发成本比APP要低。
+
+微信小程序的缺点
+
+　　1、微信小程序只有1M的大小，这样导致无法开发大型一些的小程序。所以目前你会看到很多小程序真的很小很简单。  
+　　2、小程序的技术框架还不稳定，开发方法时常有修改，导致短时间内经常要升级维护，或许这能解析为什么小程序只能1M大小，怕部署太大型的项目会出大问题。  
+　　3、不能跳转外链网址，所以间接影响了小程序的开放性。也可能是想限制其他支付方式或功能接入(或许是我想多了)。  
+　　4、不能直接分享到朋友圈，哎呀，少了一个重要的推广方式。  
+　　5、需要像APP一样审核上架，这点比HTML5即做即发布要麻烦些。
