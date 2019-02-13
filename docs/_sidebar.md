@@ -5,7 +5,7 @@
     
 * javascript
     * [基础](./list/js/js_basis)
-    * [高级](./list/js_senior)
+    * [高级](./list/js/js_senior)
 * Dom/Bom
     * [原生dom操作](./list/Dom/dom)
     * [bom相关](./list/Dom/bom)
@@ -15,7 +15,8 @@
     * [移动端](./list/mobile/mobile)
 * http协议
     * [http协议](./list/http/http)
-
+* 正则表达式 
+    * [正则表达式](./list/zhengze/zhengze)
 * node 
     * [node部分](./list/node/node)
 * ES6

@@ -133,13 +133,164 @@ js实现简单的双向绑定
 ### 7 Vue组件间的参数传递
 1、父组件与子组件传值
 
-父组件传给子组件：子组件通过props方法接受数据；
+父组件传给子组件：父传子的实现方式就是通过props属性，子组件通过props属性接收从父组件传过来的值，而父组件传值的时候使用 v-bind 将子组件中预留的变量名绑定为data里面的数据即可
 
-子组件传给父组件： $emit 方法传递参数
+* 1 子组件在props中创建一个属性，用来接收父组件传过来的值
+* 2 在父组件中注册子组件
+* 3 在子组件标签中添加子组件props中创建的属性
+* 4 把需要传给子组件的值赋值给该属性
+
+子组件的代码
+
+```js
+<template>
+    <div id="container">
+        {{msg}}
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  props:{
+    msg: String
+  }
+};
+</script>
+<style scoped>
+#container{
+    color: red;
+    margin-top: 50px;
+}
+</style>
+```
+
+父组件的代码
+
+```js
+<template>
+    <div id="container">
+        <input type="text" v-model="text" @change="dataChange">
+        <Child :msg="text"></Child>
+    </div>
+</template>
+<script>
+import Child from "@/components/Child";
+export default {
+  data() {
+    return {
+      text: "父组件的值"
+    };
+  },
+  methods: {
+    dataChange(data){
+        this.msg = data
+    }
+  },
+  components: {
+    Child
+  }
+};
+</script>
+<style scoped>
+</style>
+```
+
+2 子组件传给父组件： 子传父的实现方式就是用了 this.$emit 来遍历 getData 事件，首先用按钮来触发 setData 事件，在 setData 中 用 this.$emit 来遍历 getData 事件，最后返回 this.msg
+
+总结：
+
+    子组件中需要以某种方式例如点击事件的方法来触发一个自定义事件
+    将需要传的值作为$emit的第二个参数，该值将作为实参传给响应自定义事件的方法
+    在父组件中注册子组件并在子组件标签上绑定对自定义事件的监听
+
+    this.$on('abc',()=>{}) 绑定事件  
+    this.$emit('abc') 触法事件
+
+子组件代码
+
+```js
+<template>
+    <div id="container">
+        <input type="text" v-model="msg">
+        <button @click="setData">传递到父组件</button>
+    </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      msg: "传递给父组件的值"
+    };
+  },
+  methods: {
+    setData() {
+      this.$emit("getData", this.msg);
+    }
+  }
+};
+</script>
+<style scoped>
+#container {
+  color: red;
+  margin-top: 50px;
+}
+</style>
+
+```
+父组件代码
+
+```js
+<template>
+    <div id="container">
+        <Child @getData="getData"></Child>
+        <p>{{msg}}</p>
+    </div>
+</template>
+<script>
+import Child from "@/components/Child";
+export default {
+  data() {
+    return {
+      msg: "父组件默认值"
+    };
+  },
+  methods: {
+    getData(data) {
+      this.msg = data;
+    }
+  },
+  components: {
+    Child
+  }
+};
+</script>
+<style scoped>
+</style>
+
+```
+
 
 2、非父子组件间的数据传递，兄弟组件传值
 
 eventBus，就是创建一个事件中心，相当于中转站，可以用它来传递事件和接收事件。项目比较小时，用这个比较合适（虽然也有不少人推荐直接用VUEX，具体来说看需求咯。技术只是手段，目的达到才是王道）。
+
+> child-a>child-b
+> 前置条件->js绑定+触发事件
+1. 绑定事件 this.$on(事件名,函数(接收的形参){})
+2. 触发事件 this.$emit(事件名,数据)
+
+>A
+1. 点击按钮触发方法->触发事件vm.$emit(事件名,数据)
+  
+>B
+1. 绑定事件vm.$on(事件名,接收的参数)
+
+> A和B中导入共同的vm实例
+> 注意:提供共有的vm实例->利用模块->导出一个vm实例
+
 
 ### 8 Vue的路由实现：hash模式 和 history模式
  hash模式：在浏览器中符号“#”，#以及#后面的字符称之为hash，用 window.location.hash 读取。特点：hash虽然在URL中，但不被包括在HTTP请求中；用来指导浏览器动作，对服务端安全无用，hash不会重加载页面。vue-router默认是hash模式
