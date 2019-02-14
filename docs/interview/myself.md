@@ -99,6 +99,10 @@
     使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了量的浪费
     4）fetch没有办法原生监测请求的进度，而XHR可以
 
+   > fetch 
+
+     fetch是基于Promise设计，支持async和await
+
   > 为什么要用axios
 
     axios 是一个基于Promise 用于浏览器和 nodejs 的 HTTP 客户端，它本身具有以下特征：

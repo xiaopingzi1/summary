@@ -539,7 +539,9 @@ xhr.onreadystatechange = function () {
 
 ## 3 bootstrap
   * 介绍  
-     利用栅格系统，对于不同的屏幕采用不同的类属性，随着屏幕或视口(viewport)的增加，系统会自动分为12列。栅格系统通过一系列行与列组合来创建页面布局
+     利用栅格系统，对于不同的屏幕采用不同的类属性，随着屏幕或视口(viewport)的增加，系统会自动分为12列。栅格系统通过一系列行与列组合来创建页面布局  
+  * 版本  
+    3.37
   * 特点  
      1.跨设备，跨浏览器，兼容现代所有浏览器  
      2.响应式布局，支持pc端和移动端，手机屏幕等  
@@ -547,6 +549,9 @@ xhr.onreadystatechange = function () {
      4.内置jquery插件  
      5.支持h5，c3。h5语义化和c3都有很好的支持  
      5.支持Less,可编写更灵活的Less
+  * 原理
+     Bootstrap响应式布局是利用其栅格系统，对于不同的屏幕采用不同的类属性。在开发中可以只写一套代码在手机平板，PC端都能使用，而不用考虑使用媒体查询（针对不同的设备分别写不同的代码）。    Bootstrap的官方解释：Bootstrap提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为做多12列。  
+     栅格系统用于通过一系列的行（row）与列（column）的组合来创建页面布局。
 
 ## 4 继承
   * js中的继承就是获取存在对象已有属性和方法的一种方式.
@@ -818,19 +823,140 @@ xhr.onreadystatechange = function () {
 
   ```
 
-## 5 微信小程序的优劣势
-微信小程序的优势
+## 5 Flex布局
 
-　　1、对用户使用上来说，确实方便，要用的时候打开，不用的时候关掉，即用即走。这点比需要下载，还要占用手机内存空间的APP要好。  
-　　2、主要的样式代码都封装在微信小程序里面，所以打开速度比普通的H5要快，接近原生APP。  
-　　3、可以调用比H5更多的手机系统功能来进行开发，例如GPS定位、录音、拍视频、重力感应等，能开发更丰富的使用场景。  
-　　4、在安卓手机上可以添加到手机桌面，看上去跟原生APP差不多，但仅限安卓手机，iphone就不行了。  
-　　5、运行速度跟APP差不多，也能做出很多H5不做到的功能，开发成本跟H5差不多，相对来说开发成本比APP要低。
+Flex 是 Flexible Box 的缩写，意为"弹性布局"，用来为盒状模型提供最大的灵活性。
 
-微信小程序的缺点
+任何一个容器都可以指定为 Flex 布局。
 
-　　1、微信小程序只有1M的大小，这样导致无法开发大型一些的小程序。所以目前你会看到很多小程序真的很小很简单。  
-　　2、小程序的技术框架还不稳定，开发方法时常有修改，导致短时间内经常要升级维护，或许这能解析为什么小程序只能1M大小，怕部署太大型的项目会出大问题。  
-　　3、不能跳转外链网址，所以间接影响了小程序的开放性。也可能是想限制其他支付方式或功能接入(或许是我想多了)。  
-　　4、不能直接分享到朋友圈，哎呀，少了一个重要的推广方式。  
-　　5、需要像APP一样审核上架，这点比HTML5即做即发布要麻烦些。
+注意，设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。
+
+#### 基本概念
+采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。
+
+![](../assets/img/flex布局.png)
+
+容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。
+
+项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。,
+ 
+#### 容器的属性
+  * flex-direction    
+      flex-direction属性决定主轴的方向（即项目的排列方向）
+
+```css
+
+    .box {
+      flex-direction: row | row-reverse | column | column-reverse;
+    }
+  
+
+        row（默认值）：主轴为水平方向，起点在左端。
+        row-reverse：主轴为水平方向，起点在右端。
+        column：主轴为垂直方向，起点在上沿。
+        column-reverse：主轴为垂直方向，起点在下沿。
+```
+  * flex-wrap  
+      默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。
+
+```css
+
+    .box{
+      flex-wrap: nowrap | wrap | wrap-reverse;
+    }
+    （1）nowrap（默认）：不换行。  
+    （2）wrap：换行，第一行在上方。  
+    （3）wrap-reverse：换行，第一行在下方。
+
+```
+  * flex-flow  
+    flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+
+```css
+
+    .box {
+      flex-flow: <flex-direction> || <flex-wrap>;
+    }
+
+```
+  * justify-content  
+    justify-content属性定义了项目在主轴上的对齐方式。
+
+```css
+
+    .box {
+      justify-content: flex-start | flex-end | center | space-between | space-around;
+    }
+
+```
+  * align-items  
+    align-items属性定义项目在交叉轴上如何对齐。
+
+```css
+
+    .box {
+      align-items: flex-start | flex-end | center | baseline | stretch;
+    }
+    
+    
+
+        flex-start：交叉轴的起点对齐。
+        flex-end：交叉轴的终点对齐。
+        center：交叉轴的中点对齐。
+        baseline: 项目的第一行文字的基线对齐。
+        stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
+
+
+```
+  * align-content  
+    align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+
+```css
+
+    .box {
+      align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+    }
+    
+
+        flex-start：与交叉轴的起点对齐。
+        flex-end：与交叉轴的终点对齐。
+        center：与交叉轴的中点对齐。
+        space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。
+        space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
+        stretch（默认值）：轴线占满整个交叉轴。
+
+```
+
+#### 项目的属性
+  * order  
+    order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+
+  * flex-grow  
+    flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。  
+    如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
+
+  * flex-shrink  
+    flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。  
+    果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。  
+    负值对该属性无效。
+
+  * flex-basis  
+    flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+
+    它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。
+
+  * flex   
+    flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。  
+    该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。  
+    建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+
+  * align-self  
+    align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch
+
+```css 
+item {
+  align-self: auto | flex-start | flex-end | center | baseline | stretch;
+}
+```
+
+

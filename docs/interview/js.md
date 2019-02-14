@@ -25,3 +25,13 @@
 ```
 
 ### 2 使用正则表达式验证邮箱格式
+### 3 计算数组arr所有元素的和
+```js
+  var arr = [1,2,3];
+  var sum = 0;
+  for (var i = 0;i <= arr.length;i++){
+    sum += i
+  }
+  console.log(sum)
+
+```

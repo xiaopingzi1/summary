@@ -15,4 +15,7 @@
   em是根据父元素继承相应的大小，不是固定的  
   rem继承html跟元素的大小，只有改变html的值才可以改变rem的值
 
+### 2 移动端让页面适配网页大小的meta标签
+ * <meta name="eqMobileViewport" content="width=320,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+
   

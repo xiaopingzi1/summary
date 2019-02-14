@@ -182,4 +182,21 @@ DOM 以树结构表达 HTML 文档。
   2.2 父元素高度不固定的情况  
   父元素的padding-top和padding-bottom一样 
 
-     
+### 11 什么是盒子模型
+把所有的网页元素都看成一个盒子，它具有：  
+content，padding，border，margin   
+四个属性，这就是盒子模型  
+
+盒子模型有两种形式：标准盒子模型，怪异盒子模型
+
+### 12 src和href的区别
+href是Hypertext Reference的缩写，表示超文本引用。用来建立当前元素和文档之间的链接。常用的有：link、a。
+```html
+<link href="reset.css" rel=”stylesheet“/>
+```
+浏览器会识别该文档为css文档，并行下载该文档，并且不会停止对当前文档的处理。这也是建议使用link，而不采用@import加载css的原因。
+
+src是source的缩写，src的内容是页面必不可少的一部分，是引入。src指向的内容会嵌入到文档中当前标签所在的位置。常用的有：img、script、iframe。    
+当浏览器解析到该元素时，会暂停浏览器的渲染，知道该资源加载完毕。这也是将js脚本放在底部而不是头部得原因。
+
+    src用于替换当前元素；href用于在当前文档和引用资源之间建立联系。
