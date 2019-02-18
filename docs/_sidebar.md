@@ -19,6 +19,10 @@
     * [正则表达式](./list/zhengze/zhengze)
 * node 
     * [node部分](./list/node/node)
+* PHP
+    * [php部分](./list/PHP/php)
+    * [Mysql](./list/PHP/mysql)
+    * [cookie/session](./list/PHP/cookie)
 * ES6
     * [ES6语法](./list/es6/es6)
 * webpack
@@ -35,6 +39,7 @@
     * [js面试题](./interview/js_interview)
     * [js代码题](./interview/js)
     * [面试题](./interview/57)
+    * [小程序](./interview/wx)
     * [vue](./interview/vue)
     * [总结面试点](./interview/other)
     * [自己面试总结](./interview/myself)
