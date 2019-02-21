@@ -296,130 +296,19 @@ routes: [
  ```
  2 在vue中，我们可以使用v-on:click.once对click处理函数只绑定一次，
 
- ## 8 移动端常见的兼容性问题
- 1、安卓浏览器看背景图片，有些设备会模糊。用同等比例的图片在PC机上很清楚，但是手机上很模糊
- 
- 是devicePixelRatio作怪，因为手机分辨率太小，如果按照分辨率来显示网页，这样字会非常小，所以苹果当初就把iPhone 4的960* 640分辨率，在网页里只显示了480* 320，这样devicePixelRatio＝2。
- 
- 现在android比较乱，有1.5的，有2的也有3的。想让图片在手机里显示更为清晰，必须使用2x的背景图来代替img标签（一般情况都是用2倍）。例如一个div的宽高是100* 100，背景图必须得200*200，然后background-size:contain;，这样显示出来的图片就比较清晰了。
- 
- 代码可以如下：
- ```css
- background:url(../images/icon/all.png) no-repeat center center;  
- -webkit-background-size:50px 50px;
- background-size: 50px 50px;
- display:inline-block; 
- width:100%; 
- height:50px;
- 或者background-size:contain;
- ```
 
-2、假如手机网站不用兼容IE浏览器，一般我们会使用zeptojs
-zeptojs内置Touch events方法，Touch events看了一下zeptio新版的API，已经支持IE10以上浏览器，对zeptojs可以选择使用！
+## 8 node的优缺点
+## 9 html的兼容性问题
+1、浏览器默认的margin和padding不同。  
+解决办法：使用*{margin：0；padding：0；}
 
-3、防止手机中网页放大和缩小
-```css
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-```
+2、IE6双边bug问题。  
+如果给块级元素同时设置了margin-left和float：left；lIE6浏览器会解析margin-left值为2倍。或者设置了margin-right和float: right;浏览器会解析margin-right值为2倍。  
+解决办法：加上_display:inline; （_display是IE6特有的写法） 
 
-4、长时间按住页面出现闪退
-```css
-element {
+3、超链接访问之后hover样式不出现了，被点击后也不具有active和hover样式。  
+方法：按照顺序写 ：a:link{   }  a:visited{  } a:hover{  } a:active{   }
 
--webkit-touch-callout:none;
-
-}
-```
-5、iphone及ipad下输入框默认内阴影
-```css
-Element{
-
--webkit-appearance:none;
-
-}
-```
-6、ios和android下触摸元素时出现半透明灰色遮罩
-```css
-Element {
-
--webkit-tap-highlight-color:rgba(255,255,255,0)
-
-}
-```
-设置alpha值为0就可以去除半透明灰色遮罩，备注：transparent的属性值在android下无效。
-
-7、旋转屏幕时，字体大小调整的问题
-```css
-html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6{
-
--webkit-text-size-adjust:100%;
-
-}
-```
-
-8、圆角bug
-
-某些Android手机圆角失效
-```css
-background-clip: padding-box;
-
-background-clip 属性规定背景的绘制区域。
-border-box 	背景被裁剪到边框盒。 	
-padding-box 	背景被裁剪到内边距框。 	
-content-box 	背景被裁剪到内容框。
-```
-
-9、设置缓存
-
-手机页面通常在第一次加载后会进行缓存，然后每次刷新会使用缓存而不是去重新向服务器发送请求。如果不希望使用缓存可以设置no-cache。
-
-10、 IOS中input键盘事件keyup、keydown、keypress支持不是很好
-问题是这样的，用input search做模糊搜索的时候，在键盘里面输入关键词，会通过ajax后台查询，然后返回数据，然后再对返回的数据进行关键词标红。
-
-用input监听键盘keyup事件，在安卓手机浏览器中是可以的，但是在ios手机浏览器中变红很慢，用输入法输入之后，并未立刻相应keyup事件，只有在通过删除之后才能相应！
-
-解决办法：可以用html5的oninput事件去代替
-```js
-keyupdocument.getElementById('testInput').addEventListener('input',function(e){varvalue = e.target.value;});
-```
-然后就达到类似keyup的效果！
-
-11、ios 设置input 按钮样式会被默认样式覆盖
-
-解决方式如下：
-```css
-input,
-
-textarea {
-
-border: 0;
-
--webkit-appearance: none;
-
-}
-```
-设置默认样式为none
-
-12、移动端点透问题
-div是绝对定位的蒙层,并且z-index高于a。而a标签是页面中的一个链接
-
-我们给div绑定tap事件：
-```js
-$('#haorooms').on('tap',function(){$('#haorooms').hide();});
-```
-我们点击蒙层时 div正常消失，但是当我们在a标签上点击蒙层时，发现a链接被触发，这就是所谓的点透事件。
-
-原因：touchstart 早于 touchend 早于click。 即click的触发是有延迟的，这个时间大概在300ms左右，也就是说我们tap触发之后蒙层隐藏， 此时 click还没有触发，300ms之后由于蒙层隐藏，我们的click触发到了下面的a链接上。
-
-解决：
-
-（1）尽量都使用touch事件来替换click事件。例如用touchend事件(推荐)。  
-（2）用fastclick
-（3）用preventDefault阻止a标签的click  
-（4）延迟一定的时间(300ms+)来处理事件 （不推荐）  
-（5）以上一般都能解决，实在不行就换成click事件。
-
-下面介绍一下touchend事件，如下： 
-
-$("#haorooms").on("touchend",function(event) {event.preventDefault();});
-
+4、上下margin会重合的问题。
+margin-left和margin-right不会重合，但是margin-top和margin-bottom会重合。  
+解决办法：养成良好的书写习惯，同时书写margin-top或者同时书写margin-bottm。

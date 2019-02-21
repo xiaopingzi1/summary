@@ -511,3 +511,98 @@ Undefined,Null,Boolean,Number,String
 有1种复杂数据类型——Object
 
 ### 9 js代码放的位置
+### 10 js事件绑定的三种方法以及事件委托
+1. 嵌入dom
+
+```js
+<button onclick="open()">按钮</button>
+ 
+<script>
+function open(){
+    alert(1)
+}
+</script>
+```
+2. 直接绑定
+
+```js
+<button id="btn">按钮</button>
+<script>
+document.getElementById('btn').onclick = function(){
+    alert(1)
+}
+</script>
+
+```
+
+3. 事件监听
+
+```js
+<button id="btn">按钮</button>
+<script>
+document.getElementById('btn').addEventListener('click',function(){
+    alert(1)
+})
+//兼容IE
+document.getElementById('btn').attachEvent('click',function(){
+    alert(1)
+})
+</script>
+```
+
+### 11 js 中this的用法
+1.在一般函数方法中使用 this 指代全局对象
+
+```js
+function test(){
+　　　　this.x = 1;
+　　　　alert(this.x);
+　　}
+　　test(); // 1
+```
+
+2.作为对象方法调用，this 指代上级对象
+
+```js
+function test(){
+　　alert(this.x);
+}
+var o = {};
+o.x = 1;
+o.m = test;
+o.m(); // 1
+```
+
+3.作为构造函数调用，this 指代new 出的对象
+
+```js
+function test(){
+　　　　this.x = 1;
+　　}
+　　var o = new test();
+　　alert(o.x); // 1
+    //运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：
+　　var x = 2;
+　　function test(){
+　　　　this.x = 1;
+　　}
+　　var o = new test();
+　　alert(x); //2
+```
+
+4.apply 调用 ，apply方法作用是改变函数的调用对象，此方法的第一个参数为改变后调用这个函数的对象，this指代第一个参数
+
+```js
+var x = 0;
+　　function test(){
+　　　　alert(this.x);
+　　}
+　　var o={};
+　　o.x = 1;
+　　o.m = test;
+　　o.m.apply(); //0
+//apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。如果把最后一行代码修改为
+
+　　o.m.apply(o); //1
+
+```

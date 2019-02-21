@@ -385,3 +385,106 @@ next：function一定要调用该方法resolve这个钩子。执行效果依赖n
 
  $router为VueRouter的实例，相当于一个全局的路由器对象，里面含有很多属性和子对象，例如history对象。。。经常用的跳转链接就可以用this.$router.push，和router-link跳转一样
  编程式导航
+
+ ### 13vue中缓冲
+ * keep-alive是Vue的内置组件，能在组件切换过程中将状态保留在内存中，防止重复渲染DOM。
+   keep-alive 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和 <transition> 相似，keep-alive 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。
+
+  Props：  
+      include - 字符串或正则表达式。只有名称匹配的组件会被缓存。  
+      exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。  
+      max - 数字。最多可以缓存多少组件实例。  
+
+```js
+// 组件
+export default {
+  name: 'test-keep-alive',
+  data () {
+    return {
+        includedComponents: "test-keep-alive"
+    }
+  }
+}
+
+<keep-alive include="test-keep-alive">
+  <!-- 将缓存name为test-keep-alive的组件 -->
+  <component></component>
+</keep-alive>
+
+<keep-alive include="a,b">
+  <!-- 将缓存name为a或者b的组件，结合动态组件使用 -->
+  <component :is="view"></component>
+</keep-alive>
+
+<!-- 使用正则表达式，需使用v-bind -->
+<keep-alive :include="/a|b/">
+  <component :is="view"></component>
+</keep-alive>
+
+<!-- 动态判断 -->
+<keep-alive :include="includedComponents">
+  <router-view></router-view>
+</keep-alive>
+
+<keep-alive exclude="test-keep-alive">
+  <!-- 将不缓存name为test-keep-alive的组件 -->
+  <component></component>
+</keep-alive>
+```
+结合router，缓存部分页面
+
+使用$route.meta的keepAlive属性：
+```js
+<keep-alive>
+    <router-view v-if="$route.meta.keepAlive"></router-view>
+</keep-alive>
+<router-view v-if="!$route.meta.keepAlive"></router-view>
+```
+需要在router中设置router的元信息meta：
+```js
+//...router.js
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'Hello',
+      component: Hello,
+      meta: {
+        keepAlive: false // 不需要缓存
+      }
+    },
+    {
+      path: '/page1',
+      name: 'Page1',
+      component: Page1,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
+    }
+  ]
+})
+
+```
+使用效果
+
+以上面router的代码为例：
+```js
+<!-- Page1页面 -->
+<template>
+  <div class="hello">
+    <h1>Vue</h1>
+    <h2>{{msg}}</h2>
+    <input placeholder="输入框"></input>
+  </div>
+</template>
+
+<!-- Hello页面 -->
+<template>
+  <div class="hello">
+    <h1>{{msg}}</h1>
+  </div>
+</template>
+```
+keep-alive生命周期钩子函数：activated、deactivated
+
+使用keep-alive会将数据保留在内存中，如果要在每次进入页面的时候获取最新的数据，需要在activated阶段获取数据，承担原来created钩子中获取数据的任务。
