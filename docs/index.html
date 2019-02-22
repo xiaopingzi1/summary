@@ -15,7 +15,7 @@
     	el:"#main",
       name:'List',
       nameLink:'/',
-      repo: 'docsifyjs/docsify',
+      // repo: 'docsifyjs/docsify',渲染github的图标
       loadNavbar:true,
       alias: {
       '/.*/_sidebar.md': '/_sidebar.md'
@@ -26,6 +26,12 @@
 		  coverpage:'_coverpage.md',
       themeColor: '#3F51B5',
       autoHeader: true, //自动为每页增加标题
+      formatUpdated: '{MM}/{DD} {HH}:{mm}',
+      formatUpdated: function(time) {
+        // ...
+
+        return time;
+      },
 
     // 完整配置参数
     search: {

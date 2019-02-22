@@ -22,6 +22,18 @@
     }
     console.log(unique([1,2,1,2,3,4,3,1,3,4]));
 
+
+  function unique(arr) {
+  var temp = [];
+  for (var i = 0;i < arr.length;i++) {
+    if (temp.indexOf(arr[i]) == -1) {
+      temp.push(arr[i]);
+    }
+  }
+  return temp;
+}
+var arr = [1,2,3,1,2,4];
+console.log(unique(arr));
 ```
 
 ### 2 使用正则表达式验证邮箱格式
@@ -77,3 +89,44 @@
 ```
 
 ![](../assets/img/隐式转化.png)
+
+## 4 
+```js
+// 方式1：一个构造函数嘛，里面有个全部变量getName 指向一个匿名函数
+function Foo() {
+  getName = function() {
+    console.log(1);
+  }
+  return this;
+}
+// 方式2：构造函数的一个属性getName 指向一个匿名函数
+Foo.getName = function() {
+  console.log(2);
+}
+// 方式3：构造函数的原型上有个getName方法
+Foo.prototype.getName = function() {
+  console.log(3);
+}
+// 方式4：定义一个变量指针指向一个匿名函数
+var getName = function() {
+  console.log(4);
+}
+// 方式5：声明一个叫getName的有名函数
+function getName() {
+  console.log(5);
+}
+Foo.getName();//2 函数Foo的静态方法
+
+getName();//4 
+//当定义的变量和声明的函数重名（5,4)，它们都会进行预解析，函数声明提前于变量声明，但是最终会被变量覆盖
+
+Foo().getName();//1  先执行方式1的“Foo()”,结果是"this" 并指向window，并产生了一个全局getName(window.getName)指针指向一个匿名函数，然后再执行"this.getName()" , 其实就是执行刚刚造出来的那个全局getName指向的匿名函数，所以输出“1”.
+
+getName();//1 此句执行的是方式1执行出来的那个全局变量getName 指针指向的匿名函数，有人问为啥不执行方式4？方式4已经被覆盖了！所以结果为 “1”.
+
+new Foo.getName();//2 首先还是先看运算符优先级吧，【new Foo() >  Foo() > new Foo】，先运算方式2的Foo.getName() 结果为“2”，再new一个Foo实例对象。
+
+new Foo().getName();//3 先执行 new Foo(), 结果产生一个新的实例对象，并且继承了Foo()这个构造函数中的getName方法，所以再执行方式3函数块
+
+new new Foo().getName();//3 先执行new Foo(),变成了 new Foo的实例对象.getName(), 然后再执行 Foo的实例对象.getName(),又回到了方式3函数块，结果为“3”，最后执行new Foo的实例对象。
+```

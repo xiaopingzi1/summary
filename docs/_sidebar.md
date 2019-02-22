@@ -27,6 +27,7 @@
     * [ES6语法](./list/es6/es6)
 * webpack
     * [webpack基本配置](./list/webpack/webpack)
+    * [具体配置项](./list/webpack/peizhi)
 * vue
     * [vue基础部分](./list/vue/vue基础)
     * [vue案例](./list/vue/vue)
