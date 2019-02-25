@@ -78,3 +78,113 @@ webview用来展现UI，appService有来处理业务逻辑、数据及接口调�
 而如果有 老的 h5 项目是 vue 开发 或者 也有 h5 项目也需要小程序开发，则比较适合 wepy 或者 mpvue 来做迁移或者开发，近期看wepy几乎不更新了，所以推荐美团的mpvue。
 而如果如果团队前端强大，自己做一套框架也没问题。
 
+## 1 聚合商城后台管理系统
+负责的模块
+
+> 登录部分
+
+    将axios变成vue的插件-在登录组件中直接发送请求，
+    利用async和await来处理异步请求
+    登录成功时，用户信息中有一个加密字符串token，
+    用localStorage.setItem('token',data.token)来保存token的值
+
+> 退出部分-清除token的值
+
+> 进入首页需要进行权限验证-判断是否有token的值
+
+> 遇到的坑：在设置过滤器的时候，prop后面不能直接使用过滤器
+
+```js
+<el-table-column
+  prop="create_time | fmtDate" //不能用
+  label="创建日期"
+  width="80"
+></el-table-column>
+
+```
+ * 解决方法  
+   当单元格里的数据展示不是一些文本时(如：插值表达式)，需要给展示数据的外面套< template >容器
+
+```js
+//slot-scope作用是上下级传数据
+<el-table :data="tableData">
+  <el-table-column label="创建日期" width="80">
+    <template slot-scope="scope">//slot-scope中的值会自动锁定外层的数据源,template中的组件不能使用上一级组件中的值
+      {{scope.row.create_time | fmtDate}} //scope有自带属性.row,自动找到scope数组里面的对象
+    </template>
+  </el-table-column>
+</el-table>
+  ```
+> 用户管理-用户列表(编辑，删除，分配角色)-添加用户  
+
+    通过element-ui里面的面包屑（显示当前页面的路径，快速返回之前的任意页面。），
+    以及搜索框(el-input)，列表(e-table)来展示页面。
+    页面中有编辑，删除，以及分配角色操作
+
+角色管理-角色列表
+       -权限列表
+
+> 数据统计
+
+    统计报表->echarts
+
+1. 使用Vue的组件搭建登陆，用户列表等公用页面
+2. 依赖Vue中的vue-router模块和监听route，通过路由配置文件页面之间的跳转.
+3. 结合Element UI实现加载动画和顶部的显示和返回
+4. 使用全局的自定义过滤器Filter对涉及时间部分的数据进行处理
+5. 项目中使用了axios模块，实现与后台的数据交互
+6. 使用git进行版本控制管理，使用webpack进行代码压缩
+
+
+## 2 小鹿森林
+负责部分:用户登录，首页展示，公司介绍
+
+
+1. 运用rem和flex弹性盒模型布局页面 适配不同的设备屏幕
+2. 运用zepto,swiper等插件,完成移动端页面的交互以及轮播效果
+3. 通过ajax技术完成数据请求并渲染页面
+4. 运用iscroll插件实现页面下拉弹性效果; 
+5. 与产品经理以及UI沟通讨论,优化网站的用户体验
+
+> rem 
+```html
+<!-- width=device-width ：表示宽度是设备屏幕的宽度
+initial-scale=1.0：表示初始的缩放比例
+minimum-scale=1.0：表示最小的缩放比例
+maximum-scale=1.0：表示最大的缩放比例
+user-scalable=no：表示用户是否可以调整缩放比例 -->
+让网页的宽度自动适应手机屏幕的宽度
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<!-- 针对各个分辨率范围在html上设置font-size的代码： -->
+html{font-size:10px}  
+@media screen and (min-width:321px) and (max-width:375px){html{font-size:11px}}  
+@media screen and (min-width:376px) and (max-width:414px){html{font-size:12px}}  
+@media screen and (min-width:415px) and (max-width:639px){html{font-size:15px}}  
+@media screen and (min-width:640px) and (max-width:719px){html{font-size:20px}}  
+@media screen and (min-width:720px) and (max-width:749px){html{font-size:22.5px}}  
+@media screen and (min-width:750px) and (max-width:799px){html{font-size:23.5px}}  
+@media screen and (min-width:800px){html{font-size:25px}}
+
+动态计算html的font-size
+
+document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';
+
+rem取值分为两种情况，设置在根元素时和非根元素时，举个例子
+
+    /* 作用于根元素，相对于原始大小（16px），所以html的font-size为32px*/
+    html {font-size: 2rem}
+     
+    /* 作用于非根元素，相对于根元素字体大小，所以为64px */
+    p {font-size: 2rem}
+```
+
+## 3 鸿合科技
+负责部分：首页内容展示，公司动态，产品方案里面的内容。项目为响应式开发，实现不同尺寸下的展示,用template模板引擎进行数据渲染
+1. 根据 UI 设计稿，使用 bootstrap 栅格来实现页面的整体布局
+2. 运用 jquery 发送ajax请求,进行前后端数据的交互
+3. 运用Jquery 插件完成首页轮播图功能；
+4. 运用 CSS3 变换（transform）实现元素位移等、缩放特效
+5. 运用 @media 媒体查询技术，实现不同终端设备的不同渲染。
+6. 运用 bootstrap 的插件 transition，实现网页自定义动画
+

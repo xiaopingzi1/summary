@@ -174,5 +174,87 @@ $('#haorooms').on('tap',function(){$('#haorooms').hide();});
 
 $("#haorooms").on("touchend",function(event) {event.preventDefault();});
 
+### 5 rem布局原理
 
+![](../../assets/img/适配分析.png)
+
+其实rem布局的本质是等比缩放，一般是基于宽度
+
+假设我们将屏幕宽度平均分成100份，每一份的宽度用x表示，x = 屏幕宽度 / 100，如果将x作为单位，x前面的数值就代表屏幕宽度的百分比
+```css
+p {width: 50x} /* 屏幕宽度的50% */ 
+
+```
+
+* 如果子元素设置rem单位的属性，通过更改html元素的字体大小，就可以让子元素实际大小发生变化
   
+```css
+html {font-size: 16px}
+p {width: 2rem} /* 32px*/
+ 
+html {font-size: 32px}
+p {width: 2rem} /*64px*/
+```
+* 如果让html元素字体的大小，恒等于屏幕宽度的1/100，那1rem和1x就等价了
+
+```css
+html {fons-size: width / 100}
+p {width: 50rem} /* 50rem = 50x = 屏幕宽度的50% */ 
+```
+* 如何让html字体大小一直等于屏幕宽度的百分之一呢？ 可以通过js来设置，一般需要在页面dom ready、resize和屏幕旋转中设置
+  
+```js
+document.documentElement.style.fontSize = document.documentElement.clientWidth / 100 + 'px'; 
+```
+* 那么如何把UE图中的获取的像素单位的值，转换为已rem为单位的值
+* 公式是元素宽度 / UE图宽度 * 100，假设UE图尺寸是640px，UE图中的一个元素宽度是100px，根据公式100/640*100 = 15.625
+  
+```css
+p {width: 15.625rem}
+```
+
+下面来验证下上面的计算是否正确，下面的表格是UE图等比缩放下，元素的宽度
+
+| UE图宽度 | UE图中元素宽度 |
+
+| ----- | -------- |
+
+| 640px | 100px |
+
+| 480px | 75px |
+
+| 320px | 50px |
+
+下面的表格是通过我们的元素在不同屏幕宽度下的计算值
+
+| 页面宽度 | html字体大小 | p元素宽度 |
+
+| ----- | --------------- | ---------------- |
+
+| 640px | 640/100 = 6.4px | 15.625*6.4=100px |
+
+| 480px | 480/100=4.8px | 15.625*4.8=75px |
+
+| 320px | 320/100=3.2px | 15.625*3.2=50px |
+
+比Rem更好的方案
+
+想让页面元素随着页面宽度变化，需要一个新的单位x，x等于屏幕宽度的百分之一，css3带来了rem的同时，也带来了vw和vh
+
+    vw —— 视口宽度的 1/100；vh —— 视口高度的 1/100 —— MDN
+
+根据定义可以发现1vw=1x，有了vw我们完全可以绕过rem这个中介了，下面两种方案是等价的
+```css
+/* rem方案 */
+html {fons-size: width / 100}
+p {width: 15.625rem}
+ 
+/* vw方案 */
+p {width: 15.625vw}
+```
+vw还可以和rem方案结合，这样计算html字体大小就不需要用js了
+```css
+html {fons-size: 1vw} /* 1vw = width / 100 */
+p {width: 15.625rem}
+```
+缺点：在使用弹性布局时，一般会限制最大宽度，比如在pc端查看我们的页面，此时vw就无法力不从心了，因为除了width有max-width，其他单位都没有，而rem可以通过控制html根元素的font-size最大值，而轻松解决这个问题。 有兼容性问题
