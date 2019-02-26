@@ -724,24 +724,11 @@ var c = $.noConflict();// 释放$的控制权,并且把$的能力给了c
 ### 常用插件
 
 - 弹出层插件 layer
-  - [layer插件](https://github.com/sentsin/layer)
 - 放大镜插件
-  - [jQuery.zoom](http://www.jacklmoore.com/zoom/)
 - 轮播图插件
-  - [http://sorgalla.com/jcarousel/](http://sorgalla.com/jcarousel/)
-  - [https://github.com/OwlCarousel2/OwlCarousel2](https://github.com/OwlCarousel2/OwlCarousel2)
 - 图片懒加载插件
-  - [jQuery.lazyload](https://github.com/tuupola/jquery_lazyload)
 - jQueryUI
   - 常用的2-3个功能演示
-  - [jQueryUI](https://jqueryui.com/)
-- 查看jQuery插件的源码
-
-### 自己探索插件
-
-- [artDialog](https://github.com/aui/artDialog)
-- [图片放大](https://github.com/fat/zoom.js)
-- [github上搜索](http://www.github.com)
 
 
 ## jQuery插件开发

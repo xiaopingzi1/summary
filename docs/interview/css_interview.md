@@ -200,3 +200,82 @@ src是source的缩写，src的内容是页面必不可少的一部分，是引�
 当浏览器解析到该元素时，会暂停浏览器的渲染，知道该资源加载完毕。这也是将js脚本放在底部而不是头部得原因。
 
     src用于替换当前元素；href用于在当前文档和引用资源之间建立联系。
+
+### 13 css3新特性
+1.选择器
+
+:nth-child()
+:nth-of-type()
+:checked
+:disabled
+
+2.盒模型
+
+box-sizing
+
+3.背景
+
+background-image、background-size、background-origin
+
+4.渐变
+
+linear-gradient、radial-gradient
+
+5.边框
+
+border-radius、border-image
+
+6.阴影
+
+box-shadow、text-shadow
+
+7.2D/3D转换
+
+transform：translate rotate scale skew
+
+8.过渡
+
+transition
+
+9.动画
+
+keyframes、animation
+
+10.弹性盒子
+
+flex
+
+11.媒体查询
+
+@media
+
+### 14 css hack
+由于不同的浏览器，比如Internet Explorer 6,Internet Explorer 7,Mozilla Firefox等，对CSS的解析认识不一样，因此会导致生成的页面效果不一样，得不到我们所需要的页面效果。
+
+这个时候我们就需要针对不同的浏览器去写不同的CSS，让它能够同时兼容不同的浏览器，能在不同的浏览器中也能得到我们想要的页面效果。
+
+这个针对不同的浏览器写不同的CSS code的过程，就叫CSS hack,也叫写CSS hack。
+
+* CSS hack的原理
+
+由于不同的浏览器和浏览器各版本对CSS的支持及解析结果不一样，以及CSS优先级对浏览器展现效果的影响，我们可以据此针对不同的浏览器情景来应用不同的CSS
+
+* CSS hack分类
+
+CSS Hack大致有3种表现形式，CSS属性前缀法、选择器前缀法以及IE条件注释法（即HTML头部引用if IE）Hack，实际项目中CSS Hack大部分是针对IE浏览器不同版本之间的表现差异而引入的。
+
+    属性前缀法(即类内部Hack)：例如 IE6能识别下划线"_"和星号" * "，
+    IE7能识别星号" * "，但不能识别下划线"_"，
+    IE6~IE10都认识"\9"，
+    但firefox前述三个都不能认识。
+
+    选择器前缀法(即选择器Hack)：例如 IE6能识别*html .class{}，
+    IE7能识别*+html .class{}或者*:first-child+html .class{}。
+
+    IE条件注释法(即HTML条件注释Hack)：
+    针对所有IE(注：IE10+已经不再支持条件注释)： 
+    <!--[if IE]>IE浏览器显示的内容 <![endif]-->，
+    针对IE6及以下版本： <!--[if lt IE 6]>只在IE6-显示的内容 <![endif]-->。
+    这类Hack不仅对CSS生效，对写在判断语句里面的所有代码都会生效。
+
+　CSS hack书写顺序，一般是将适用范围广、被识别能力强的CSS定义在前面。

@@ -25,17 +25,6 @@
  	   代码执行的时候，一行一行执行的。
 ```
 
-> #### JavaScript能干什么？
-
-```javascript
-  ☞ 常见的网页效果【表单验证，轮播图。。。】
-  ☞ 与H5配合实现游戏【水果忍者： http://www.jq22.com/demo/html5-fruit-ninja/】
-  ☞ 实现应用级别的程序【 http://naotu.baidu.com】
-  ☞ 实现统计效果【http://echarts.baidu.com/examples/】
-  ☞ 地理定位等功能【http://lbsyun.baidu.com/jsdemo.htm#i4_5】
-  ☞ 在线学编程【https://codecombat.163.com/play/】
-  ☞ js可以实现人工智能
-```
 
 > #### JavaScript组成
 

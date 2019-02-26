@@ -21,8 +21,6 @@
 - 执行环境：在宿主环境（host environment）下运行，浏览器是最常见的 JavaScript 宿主环境
   + 但是在很多非浏览器环境中也使用 JavaScript ，例如 node.js
 
-  [MDN-JavaScript](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
-
 #### JavaScript 的组成
 
 - ECMAScript  - 语法规范
@@ -53,14 +51,10 @@
 >
 > 掘金    微信公众号：前端大全
 
-- [知乎 - JavaScript 能做什么，该做什么？](https://www.zhihu.com/question/20796866)
-- [最流行的编程语言 JavaScript 能做什么？](https://github.com/phodal/articles/issues/1)
 
 ### 浏览器是如何工作的
 
 ![img](../../assets/img/浏览器工作.png)
-
-[参考链接](http://www.2cto.com/kf/201202/118111.html)
 
 ```
 User Interface  用户界面，我们所看到的浏览器
@@ -131,12 +125,6 @@ Data Persistence(持久化)  数据持久化，数据存储  cookie、HTML5中�
 - 封装性 
 - 继承性
 - [多态性]抽象
-
-扩展阅读：
-
-- [维基百科 - 面向对象程序设计](https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1)
-- [知乎：如何用一句话说明什么是面向对象思想？](https://www.zhihu.com/question/19854505)
-- [知乎：什么是面向对象编程思想？](https://www.zhihu.com/question/31021366)
 
 #### 程序中面向对象的基本体现
 
@@ -1467,24 +1455,3 @@ function factorial (num) {
 
 ---
 
-## 附录
-
-### A 代码规范
-
-#### 代码风格
-
-- [JavaScript Standard Style ](https://github.com/feross/standard)
-- [Airbnb JavaScript Style Guide() {](https://github.com/airbnb/javascript)
-
-#### 校验工具
-
-- [JSLint](https://github.com/douglascrockford/JSLint)
-- [JSHint](https://github.com/jshint/jshint)
-- [ESLint](https://github.com/eslint/eslint)
-
-### B Chrome 开发者工具
-
-### C 文档相关工具
-
-- 电子文档制作工具: [docute](https://github.com/egoist/docute)
-- 流程图工具：[DiagramDesigner](http://logicnet.dk/DiagramDesigner/)

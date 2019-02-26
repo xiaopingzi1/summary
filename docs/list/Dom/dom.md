@@ -1031,7 +1031,7 @@ innerText 是非标准的属性，textContent是标准的属性
     - 代码：
 
       ```html
-      <a id="link" href="https://www.baidu.com">点击</a>
+      <a id="link" href="//www.baidu.com">点击</a>
       <script>
       	var link = document.getElementById('link');
       	link.onclick = function (e) {

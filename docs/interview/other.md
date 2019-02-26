@@ -503,10 +503,6 @@
 ```js
 //步骤一:创建异步对象
 var ajax = new XMLHttpRequest();
-//步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
-ajax.open('get','getStar.php?starName='+name);
-//步骤三:发送请求
-ajax.send();
 //步骤四:注册事件 onreadystatechange 状态改变就会调用
 ajax.onreadystatechange = function () {
    if (ajax.readyState==4 &&ajax.status==200) {
@@ -514,6 +510,10 @@ ajax.onreadystatechange = function () {
 　　 console.log(ajax.responseText);//输入相应的内容
    }
 }
+//步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
+ajax.open('get','getStar.php?starName='+name);
+//步骤三:发送请求
+ajax.send();
 
 ```
 
@@ -525,15 +525,16 @@ var xhr = new XMLHttpRequest();
 //设置请求的类型及url
 //post请求一定要添加请求头才行不然会报错
 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
- xhr.open('post', '02.post.php' );
-//发送请求
-xhr.send('name=fox&age=18');
 xhr.onreadystatechange = function () {
     // 这步为判断服务器是否正确响应
   if (xhr.readyState == 4 && xhr.status == 200) {
     console.log(xhr.responseText);
   } 
 };
+
+ xhr.open('post', '02.post.php' );
+//发送请求
+xhr.send('name=fox&age=18');
 
 
 ```
@@ -554,6 +555,48 @@ xhr.onreadystatechange = function () {
      Bootstrap响应式布局是利用其栅格系统，对于不同的屏幕采用不同的类属性。在开发中可以只写一套代码在手机平板，PC端都能使用，而不用考虑使用媒体查询（针对不同的设备分别写不同的代码）。    Bootstrap的官方解释：Bootstrap提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为做多12列。  
      栅格系统用于通过一系列的行（row）与列（column）的组合来创建页面布局。
 
+1 整体架构
+
+![](../assets/img/boot.png)
+
+2 栅格系统
+
+　　栅格系统就是把网页的总宽度平分为12份，我们可以自由按份组合。栅格系统使用的总宽度可以不固定，Bootstrap是按百分比进行平分。（保留15位小数点精度）
+
+　　栅格系统是整个Bootstrap的核心功能，也是响应式设计核心理念的一个实现形式。
+
+3 响应式设计
+
+  　响应式设计是一个理念，而非功能。Bootstrap的所有内容，都是以响应式设计为设计理念来实现的。
+
+　　响应式设计的目的：让页面应该有能力自动响应用户的设备环境。响应式网页设计就是一个网站能够兼容多个终端，而不是为每个终端做一个特定的版本。
+
+　　实践方式：由多方面决定，包括弹性网格和布局、图片、CSS媒体查询（media query）的使用等。
+
+4 栅格系统
+
+4.1实现原理
+
+通过定义容器大小，平分12份，再调整内外边距，最后再结合媒体查询，就制作出了强大的响应式的栅格系统。Bootstrap默认的栅格系统平分为12份，在使用的时候大家也可以根据情况通过重新编译LESS源码来修改12这个数值
+
+4.2 工作原理
+　　•一行数据（row）必须包含在.container中，以便为其赋予合适的对齐方式和内边距。
+
+　　•使用行（row）在水平方向创建一组列（column）。
+
+　　•具体内容应当放置于列（column）内，而且只有列（column）可以作为行（row）的直接子元素。
+
+　　•使用像.row和.col-xs-4这样的样式来快速创建栅格布局。
+
+　　•通过设置列padding从而创建列（column）之间的间隔。然后通过为第一列和最后一列设置负值的margin从而抵消掉padding的影响。
+
+　　•栅格系统中的列是通过指定1到12的值来表示其跨越的范围的。
+
+Container的作用：
+
+    提供宽度限制。container随着页面宽度变化而变化，由于column的宽度是基于百分比，所以它们的宽度不用去管。
+    提供左右padding，以至于文本内容不会触及浏览器边缘。container左右有15px的padding
+ 
 ## 4 继承
   * js中的继承就是获取存在对象已有属性和方法的一种方式.
 
