@@ -189,3 +189,10 @@ rem取值分为两种情况，设置在根元素时和非根元素时，举个�
 5. 运用 @media 媒体查询技术，实现不同终端设备的不同渲染。
 6. 运用 bootstrap 的插件 transition，实现网页自定义动画
 
+## 10 微信小程序怎么设置转发
+在app.js入口文件当中设置
+```js
+wx.showShareMenu({
+  withShareTicket: true
+})
+```

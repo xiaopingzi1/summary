@@ -535,9 +535,55 @@ xhr.onreadystatechange = function () {
  xhr.open('post', '02.post.php' );
 //发送请求
 xhr.send('name=fox&age=18');
-
-
 ```
+jQuery提供的Ajax方法 
+
+ jQuery提供了4个ajax方法:  `$.get()  $.post()  $.ajax()  $.getJSON()`
+
+
+ 1 $.get ##  
+ $.get(var1, var2, var3, var4);  
+  参数1: 请求的后端程序的地址  
+  参数2: 要发送到后端程序的数据，json对象/js对象（推荐）或者 字符串  
+  参数3: 当readyState==4时的回调函数，该函数中有一个参数，就是后端程序返回的数据  
+  参数4: 设置返回数据的类型:  text(默认)  、json  、 xml等
+
+ 2 $.post
+
+`$.post`函数的用法和`$.get`一模一样，只是发送请求方式变为post
+
+ $.post(var1, var2, var3 , var4);    //最标准的写法  
+  参数1: 请求的后端程序的地址  
+  参数2: 要发送到后端程序的数据，json对象/js对象（推荐） 或者 字符串  
+  参数3: 当readyState=4时的回调函数，该函数中有一个参数，就是后端程序返回的数据  
+  参数4: 设置返回数据的类型:  text(默认)  json     xml
+
+ 3 $.ajax
+ `$.ajax`使用JS对象来配置ajax请求  ---  $.ajax(obj);
+
+ 必须配置项：
+  url:         要请求的后端程序地址  
+  data:      要发送到后端程序的数据 (可以使用字符串、js、json、fd)  
+  type:      请求类型  post和get 两种  （还有put和delete）  
+  dataType:  返回值类型  text(默认) 、 json 、xml 、 jsonp(跨域使用)   
+  success:   成功完成ajax触发的回调函数，其参数是后端程序的返回数据
+
+  其他配置项：
+
+  cache: 是否进行缓存(true缓存/fasle不缓存)，如果设置type为get，一般设置该项为false(不缓存)。  
+  async: 同步/异步设置，true(异步、默认)  false(同步)。  
+  timeout: 超时设置，多少ms之后扔未接收到后端返回数据，则结束本次请求。--- 进入error方法中  
+  error: 请求失败时的回调函数，该函数有三个参数。参数1是xhr对象，参数2是错误信息（错误信息通常是 "null", "timeout", "error", "notmodified" 和 "parsererror"），参数3是异常对象。  
+  complete: Ajax完成时的回调函数。  
+  beforeSend: 发送Ajax之前执行的回调函数。  
+
+​	 beforeSend --->  success/error ---> complete
+
+  contentType:  头信息设置，使用FormData对象时设置该值为false，其他情况会自动设置，不需要手动设置。  
+  processData:  处理数据方式，使用FormData对象时设置该值为false，其他情况会自动设置，不需要手动设置。  
+
+  注意: ==contentType和processData只有在使用FormData对象时设置为false，其余情况均不用设置==
+
 
 ## 3 bootstrap
   * 介绍  

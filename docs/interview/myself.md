@@ -312,3 +312,69 @@ routes: [
 4、上下margin会重合的问题。
 margin-left和margin-right不会重合，但是margin-top和margin-bottom会重合。  
 解决办法：养成良好的书写习惯，同时书写margin-top或者同时书写margin-bottm。
+
+## 10 异步上传图片
+```html
+<form class="form-horizontal"enctype="multipart" id="form_edit">
+  <div class="form-group">
+    <label class="col-sm-3 control-label">头像</label>
+    <div class="col-sm-6">
+      <label class="form-image">
+        <input id="avatar" type="file" name="file_img">
+        <img src="<?php echo $info['admin_pic'];?>" id="avatar_img">
+        <i class="mask fa fa-upload"></i>
+      </label>
+      <!-- 用来保存图片的信息 -->
+      <input type="hidden" name="temp" id="temp">
+    </div>
+  </div>
+</form>
+
+```
+
+```js
+    //上传管理员头像
+    $('#avatar').change(function () {
+      //转化为jquery对象
+      var file = document.getElementById('avatar').files[0];
+      var fd = new FormData();
+      fd.append('f',file);
+      // console.dir(file);
+      $.ajax({
+        url:'uploadImg.php',
+        data:fd,
+        type:'post',
+        dataType:'text',
+        contentType:false,
+        processData:false,
+        success:function (data) {
+          // console.log(data);
+          if (data == 2) {                                                                                                                                                                                          
+            layer.msg('头像上传失败');
+          } else {
+            $('#avatar_img').attr('src',data);
+            layer.msg('头像上传成功');
+          }
+        }
+      })
+    })
+
+
+```
+
+下面的代码将创建一个空的FormData对象:
+```js
+var formData = new FormData(); // 当前为空
+```
+你可以使用FormData.append来添加键/值对到表单里面；
+```js
+formData.append('username', 'Chris');
+```
+* FormData对象的优势就是能够一次性将表单中的所有数据全部取出，包括文件域，文件对象
+* 使用formdata对象后，必须使用post方式来发送ajax请求
+* 将formdata对象作为参数传入send中
+
+## 11常见的加密方式
+1.Base64
+
+2.MD5
