@@ -8,16 +8,24 @@
 </head>
 <body>
   <script>
-  var a={"name":"tom","sex":"男","age":"24"}; 
-  var b='{"name":"Mike","sex":"女","age":"29"}'; 
-  var aToStr=JSON.stringify(a);             //对象转换成字符串
-  var bToObj=JSON.parse(b);                //字符串转换成对象
-  alert(typeof(aToStr));                           //string 
-  alert(typeof(bToObj));                          //object 
-  JSON.stringify();
-  console.log(aToStr);
-  console.log(bToObj);
-  
+function fun(n) {
+  var a  = [];
+  for (var i = 0;i < n;i++) {
+    var b = Math.floor(Math.random()*(41-11+1)+11);
+    a.push(b)
+  }
+  return a;
+}
+console.log(fun(10));
+  // var funcs = [];
+  // for (var i=0;i<10;i++){
+  //   funcs.push(function(){
+  //     console.log(i);
+  //   })
+  // }
+  // funcs.forEach(function (func) {
+  //   func();
+  // })
   </script>
 </body>
 </html>

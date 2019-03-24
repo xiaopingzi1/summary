@@ -409,3 +409,20 @@ formData.append('username', 'Chris');
 404错误
 
 在History mode下，如果直接通过地址栏访问路径，那么会出现404错误，这是因为这是单页应用（废话）…其实是因为调用了history.pushState API 所以所有的跳转之类的操作都是通过router来实现的，解决这个问题很简单，只需要在后台配置如果URL匹配不到任何静态资源，就跳转到默认的index.html。
+
+## 15 jQuery对象和DOM对象的相互转换
+1.jQuery对象转DOM对象
+```js
+var $li = $(“li”);
+//第一种方法（推荐使用）
+$li[0]
+//第二种方法
+$li.get(0)
+//其实jQuery对象转DOM对象的实质就是取出jQuery对象中封装的DOM对象。
+```
+
+2.DOM对象转jQuery对象
+```js
+var $obj = $(domObj);
+// $(document).ready(function(){});就是典型的DOM对象转jQuery对象
+```
