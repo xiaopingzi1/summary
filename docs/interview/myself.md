@@ -426,3 +426,109 @@ $li.get(0)
 var $obj = $(domObj);
 // $(document).ready(function(){});就是典型的DOM对象转jQuery对象
 ```
+
+## 16 深拷贝和浅拷贝
+简单点来说，就是假设B复制了A，当修改A时，看B是否会发生变化，如果B也跟着变了，说明这是浅拷贝，拿人手短，如果B没变，那就是深拷贝
+
+基本数据类型有哪些，number，string，boolean，null，undefined，symbol以及未来ES10新增的BigInt(任意精度整数)七类。
+
+引用数据类型(Object类)有常规名值对的无序对象{a:1}，数组[1,2,3]，以及函数等。
+
+1 基本类型--名值存储在栈内存中，例如let a=1;
+
+![](../assets/img/堆.jpg)
+
+当你b=a复制时，栈内存会新开辟一个内存，例如这样：
+
+![](../assets/img/堆1.jpg)
+
+所以当你此时修改a=2，对b并不会造成影响，因为此时的b不受a的影响了。当然，let a=1,b=a;虽然b不受a影响，但这也算不上深拷贝，因为深拷贝本身只针对较为复杂的object类型数据。
+
+2 引用数据类型--名存在栈内存中，值存在于堆内存中，但是栈内存会提供一个引用的地址指向堆内存中的值
+
+![](../assets/img/拷贝1.jpg)
+
+当b=a进行拷贝时，其实复制的是a的引用地址，而并非堆里面的值。
+
+![](../assets/img/拷贝2.jpg)
+
+而当我们a[0]=1时进行数组修改时，由于a与b指向的是同一个地址，所以自然b也受了影响，这就是所谓的浅拷贝了。
+
+![](../assets/img/拷贝3.jpg)
+
+要是在堆内存中也开辟一个新的内存专门为b存放值，就像基本类型那样，岂不就达到深拷贝的效果了
+
+![](../assets/img/拷贝4.jpg)
+
+深拷贝
+
+数组 slice concat
+```js
+arrayObj.slice(start, [end]) 该方法返回一个 Array 对象，其中包含了 arrayObj 的指定部分。  
+不会改变原数组
+
+var arr = ['a', 'b', 'c'];
+var arrCopy = arr.slice(0);
+arrCopy[0] = 'test'
+console.log(arr); // ["a", "b", "c"]
+console.log(arrCopy); // ["test", "b", "c"]
+
+arrayObj.concat() 方法用于连接两个或多个数组。该方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。
+
+var arr = ['a', 'b', 'c'];
+var arrCopy = arr.concat();
+arrCopy[0] = 'test'
+console.log(arr); // ["a", "b", "c"]
+console.log(arrCopy); // ["test", "b", "c"]
+
+function deepCopy(arr1, arr2) {
+   for (var i = 0; i < arr1.length; ++i) {
+       arr2[i] = arr1[i];
+   }
+}
+
+```
+对象
+
+对象的深拷贝实现原理： 定义一个新的对象，遍历源对象的属性 并 赋给新对象的属性
+```js
+var obj = {
+   name:'Hanna Ding',
+   age: 22
+}
+
+var obj2 = new Object();
+obj2.name = obj.name;
+obj2.age = obj.age
+
+obj.name = 'xiaoDing';
+console.log(obj); //Object {name: "xiaoDing", age: 22}
+console.log(obj2); //Object {name: "Hanna Ding", age: 22}
+
+```
+
+```js
+封装深拷贝方法
+
+var obj = {
+    name: 'Hanna',
+    age: 22
+}
+var deepCopy = function (source) {
+    var result = {};            
+    for(var key in source) {                
+        if(typeof source[key] === 'object') {
+            result[key] = deepCopy(source[key])
+        } else {
+            result[key] = source[key]
+        }
+    }            
+    return result;
+}
+
+var objCopy = deepCopy(obj)
+obj.name = 'ding';
+console.log(obj);//Object {name: "ding", age: 22}
+console.log(objCopy);//Object {name: "Hanna", age: 22}
+
+```
