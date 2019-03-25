@@ -498,3 +498,77 @@ keep-alive生命周期钩子函数：activated、deactivated
 2 通过js来操作一切，还是用各自的处理方式
 * react的思路是all in js，通过js来生成html，所以设计了jsx，还有通过js来操作css，社区的styled-component、jss等，
 * vue是把html，css，js组合到一起，用各自的处理方式，vue有单文件组件，可以把html、css、js写到一个文件中，html提供了模板引擎来处理。
+
+### 15 vue-router的钩子函数
+vue路由钩子大致可以分为三类:
+
+1.全局钩子
+
+主要包括beforeEach和aftrEach,
+    beforeEach函数有三个参数：
+
+    to:router即将进入的路由对象
+    from:当前导航即将离开的路由
+    next:Function,进行管道中的一个钩子，如果执行完了，则导航的状态就是 confirmed （确认的）
+    否则为false，终止导航。
+
+    afterEach函数不用传next()函数
+
+这类钩子主要作用于全局,一般用来判断权限,以及以及页面丢失时候需要执行的操作,例如:
+```js
+//使用钩子函数对路由进行权限跳转
+router.beforeEach((to, from, next) => {
+    const role = localStorage.getItem('ms_username');
+    if(!role && to.path !== '/login'){
+        next('/login');
+    }else if(to.meta.permission){
+        // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
+        role === 'admin' ? next() : next('/403');
+    }else{
+        // 简单的判断IE10及以下不进入富文本编辑器，该组件不兼容
+        if(navigator.userAgent.indexOf('MSIE') > -1 && to.path === '/editor'){
+            Vue.prototype.$alert('vue-quill-editor组件不兼容IE10及以下浏览器，请使用更高版本的浏
+            览器查看', '浏览器不兼容通知', {
+                confirmButtonText: '确定'
+            });
+        }else{
+            next();
+        }
+    }
+})
+
+```
+2.单个路由里面的钩子beforeEnter,beforeLeave
+
+主要用于写某个指定路由跳转时需要执行的逻辑
+```js
+   {
+    path: '/dashboard',
+    component: resolve => require(['../components/page/Dashboard.vue'], resolve),
+    meta: { title: '系统首页' },
+    beforeEnter: (to, from, next) => {
+        
+      },
+    beforeLeave: (to, from, next) => {
+        
+    }
+ },
+```
+3.组件路由
+
+    主要包括 beforeRouteEnter和beforeRouteUpdate ,beforeRouteLeave
+    这几个钩子都是写在组件里面也可以传三个参数(to,from,next),作用与前面类似.
+```js
+beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (
+        vm.$route.meta.hasOwnProperty('auth_key') &&
+        vm.$route.meta.auth_key != ''
+      ) {
+        if (!vm.hasPermission(vm.$route.meta.auth_key)) {
+          vm.$router.replace('/admin/noPermission')
+        }
+      }
+    })
+  },
+```
