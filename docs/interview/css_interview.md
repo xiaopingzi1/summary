@@ -289,3 +289,107 @@ relative：相对定位，对象遵循正常文档流，相对于其正常位置
 absolute：绝对定位，相对于 static 定位以外的第一个父元素进行定位。
 
 fixed：固定定位，相对于浏览器窗口进行定位
+
+### 16 怎么实现三列布局，左侧和右侧宽度固定，中间自适应
+1.使用自身浮动法：
+
+自身浮动法的原理就是对左右分别使用float:left和float:right，float使左右两个元素脱离文档流，中间元素正常在正常文档流中。对中间文档流使用margin指定左右外边距进行定位。
+
+该布局法的不足是三个元素的顺序，middle一定要放在最后，middle占据文档流位置，所以一定要放在最后，左右两个元素位置没有关系。当浏览器窗口很小的时候，右边元素会被挤到下一行。
+
+2.使用绝对定位法：
+
+绝对定位法原理是将左右两边使用absolute定位，因为绝对定位使其脱离文档流，后面的middle会自然流动到他们上面，然后使用margin属性，留出左右元素的宽度，既可以使中间元素自适应屏幕宽度。
+
+该法布局的好处，三个div顺序可以任意改变。但是因为是绝对定位，如果页面上还有其他内容，top的值需要小心处理。
+
+3.使用flex布局：子元素的float,clear,vertical-align会失效
+
+设置一个父div，添加样式display：flex。中间div设置flex-grow：1，（等同代码中设置flex：1。flex是grow、shrink、basis的简写）但是盒模型默认紧紧挨着，可以使用margin控制外边距。middle一定在中间，否则需要order属性来调整。      
+
+通过项目属性flex-grow设置middle的放大比例，将空余的空间用middle来填充，使三个项目排满一整行；默认为0，也就是对剩余空间不做处理。通过项目属性flex-basis 设置left和right的固定宽度。
+```html
+<style>
+.main{
+      width:100%;
+      height:300px;
+      display: flex;
+      /* 主轴方向，起点在左端 */
+      flex-direction: row;
+      /* 项目在主轴的对齐方式 */
+      justify-content: flex-start;
+    }
+    .left{
+      /* flex属性是flex-grow, flex-shrink 和 flex-basis的简写，
+      默认值为0 1 auto。后两个属性可选。 */
+      flex:0 1 200px;
+      height: 100%;
+      background-color:red;
+    }
+    .right{
+      flex:0 1 200px;
+      height:100%;
+      background-color:pink;
+    }
+    .middle{
+      flex:1;
+      height: 100%;
+      background-color:greenyellow;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="left"></div>
+    <div class="middle"></div>
+    <div class="right"></div>
+  </div>
+</body>
+
+```
+4.圣杯布局，实现上述要求：
+
+ 圣杯布局的原理是margin负值法。首先设置父div的位置，使其左右分别空出200px和120px区域。  
+ 然后利用三列全部左浮动和相对定位以及设置left和right 负的外边距可以实现。
+ ```html
+<style>
+    body {
+      min-width: 600px;
+    }
+    .main{
+      padding:0 200px;
+    }
+    .a {
+      float: left;
+      height: 300px;
+    }
+    .left{
+      width: 200px;
+      position: relative;
+      left:-200px; 
+      margin-left:-100%;
+      background-color:rosybrown;
+    }
+    .right{
+      width: 200px;
+      position: relative;
+      right:-200px;
+      margin-left:-200px;
+      background-color:plum;
+    }
+    .middle{
+      width: 100%;
+      background-color:aqua;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div id="middle"><div class="middle a"></div></div>
+    <div class="left a"></div>
+    <div class="right a"></div>
+  </div>
+</body>
+
+
+ ```
