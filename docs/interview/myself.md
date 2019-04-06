@@ -532,3 +532,25 @@ console.log(obj);//Object {name: "ding", age: 22}
 console.log(objCopy);//Object {name: "Hanna", age: 22}
 
 ```
+## 17 原生js实现购物车
+购物车总金额计算：通过queryselector获取价格，数量等。循环遍历所有被选中商品计算总金额，将总金额通过innertext传递给总数部分
+
+移除商品：点击按钮后触法方法，在方法中获取需要的节点，在父节点中移除商品的tr
+
+增加商品数量：点击加号后，获取input里面的值，将增加后的值重新赋值给Input。parseInt 将字符串转整数，最后再重新调用购物车金额计算的方法
+
+减少商品数量：判断input的值是否大于1.
+
+## 18 call apply 
+```js
+/*apply()方法*/
+function.apply(thisObj[, argArray])
+
+/*call()方法*/
+function.call(thisObj[, arg1[, arg2[, [,...argN]]]]);
+
+```
+定义  
+apply：调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments);即A对象应用B对象的方法。
+
+call：调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.call(A, args1,args2);即A对象调用B对象的方法。

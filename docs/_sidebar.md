@@ -1,3 +1,6 @@
+* 总结
+    * [知识点](./work/knowledge)
+    * [支付宝小程序](./work/alipay)
 * html
     * [html](./list/html/html)
 * css
@@ -45,5 +48,3 @@
     * [vue](./interview/vue)
     * [总结面试点](./interview/other)
     * [自己面试总结](./interview/myself)
-* 总结
-    * [知识点](./work/knowledge)

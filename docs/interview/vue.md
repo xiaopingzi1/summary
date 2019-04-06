@@ -114,34 +114,32 @@
     DOM 渲染在 mounted 中就已经完成了。
 
 ### 6 Vue实现数据双向绑定的原理：Object.defineProperty()
-   * vue实现数据双向绑定主要是：采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty() 来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应监听回调。当把一个普通 Javascript 对象传给 Vue 实例来作为它的 data 选项时，Vue 将遍历它的属性，用 Object.defineProperty() 将它们转为 getter/setter。用户看不到 getter/setter，但是在内部它们让 Vue 追踪依赖，在属性被访问和修改时通知变化。
-
-   * vue的数据双向绑定 将MVVM作为数据绑定的入口，整合Observer，Compile和Watcher三者，通过Observer来监听自己的model的数据变化，通过Compile来解析编译模板指令（vue中是用来解析 {{}}），最终利用watcher搭起observer和Compile之间的通信桥梁，达到数据变化 —>视图更新；视图交互变化（input）—>数据model变更双向绑定效果。
-
+vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
 ```js
-js实现简单的双向绑定
- <body>
-     <div id="app"> 
-        <input type="text" id="txt">
-        <p id="show"></p>
-     </div>
- </body>
- <script type="text/javascript">
-     var obj = {}
-     Object.defineProperty(obj,'txt',{
-        get:function() {
-          return obj
+var obj  = {};
+Object.defineProperty(obj, 'name', {
+        get: function() {
+            console.log('我被获取了')
+            return val;
         },
-        set:function (newValue) {
-          document.getElementById('txt').value = newValue
-          document.getElementById('show').innerHTML = newValue
+        set: function (newVal) {
+            console.log('我被设置了')
         }
-     })
-     document.addEventListener('keyup',function(e) {
-       obj.txt = e.target.value
-     })
- </script>
+})
+obj.name = 'fei';//在给obj设置name属性的时候，触发了set这个方法
+var val = obj.name;//在得到obj的name属性，会触发get方法
 ```
+示意图
+
+![](../assets/img/双向绑定.png)
+
+a、Observer实现对MVVM自身model数据劫持，监听数据的属性变更，并在变动时进行notify  
+b、Compile实现指令解析，初始化视图，并订阅数据变化，绑定好更新函数  
+c、Watcher一方面接收Observer通过dep传递过来的数据变化，一方面通知Compile进行view update。
+
+observer用来实现对每个vue中的data中定义的属性循环用Object.defineProperty()实现数据劫持，以便利用其中的setter和getter，然后通知订阅者，订阅者会触发它的update方法，对视图进行更新。
+
+在vue中v-model，v-name，{{}}等都可以对数据进行显示，也就是说假如一个属性都通过这三个指令了，那么每当这个属性改变的时候，相应的这个三个指令的html视图也必须改变，于是vue中就是每当有这样的可能用到双向绑定的指令，就在一个Dep中增加一个订阅者，其订阅者只是更新自己的指令对应的数据，也就是v-model='name'和{{name}}有两个对应的订阅者，各自管理自己的地方。每当属性的set方法触发，就循环更新Dep中的订阅者。
 
 ### 7 Vue组件间的参数传递
 1、父组件与子组件传值
@@ -395,95 +393,12 @@ next：function一定要调用该方法resolve这个钩子。执行效果依赖n
       exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。  
       max - 数字。最多可以缓存多少组件实例。  
 
+在app.vue组件里面
 ```js
-// 组件
-export default {
-  name: 'test-keep-alive',
-  data () {
-    return {
-        includedComponents: "test-keep-alive"
-    }
-  }
-}
-
-<keep-alive include="test-keep-alive">
-  <!-- 将缓存name为test-keep-alive的组件 -->
-  <component></component>
+<keep-alive exclude="moviesDetail">
+   <router-view></router-view>
 </keep-alive>
 
-<keep-alive include="a,b">
-  <!-- 将缓存name为a或者b的组件，结合动态组件使用 -->
-  <component :is="view"></component>
-</keep-alive>
-
-<!-- 使用正则表达式，需使用v-bind -->
-<keep-alive :include="/a|b/">
-  <component :is="view"></component>
-</keep-alive>
-
-<!-- 动态判断 -->
-<keep-alive :include="includedComponents">
-  <router-view></router-view>
-</keep-alive>
-
-<keep-alive exclude="test-keep-alive">
-  <!-- 将不缓存name为test-keep-alive的组件 -->
-  <component></component>
-</keep-alive>
-```
-结合router，缓存部分页面
-
-使用$route.meta的keepAlive属性：
-```js
-<keep-alive>
-    <router-view v-if="$route.meta.keepAlive"></router-view>
-</keep-alive>
-<router-view v-if="!$route.meta.keepAlive"></router-view>
-```
-需要在router中设置router的元信息meta：
-```js
-//...router.js
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello,
-      meta: {
-        keepAlive: false // 不需要缓存
-      }
-    },
-    {
-      path: '/page1',
-      name: 'Page1',
-      component: Page1,
-      meta: {
-        keepAlive: true // 需要被缓存
-      }
-    }
-  ]
-})
-
-```
-使用效果
-
-以上面router的代码为例：
-```js
-<!-- Page1页面 -->
-<template>
-  <div class="hello">
-    <h1>Vue</h1>
-    <h2>{{msg}}</h2>
-    <input placeholder="输入框"></input>
-  </div>
-</template>
-
-<!-- Hello页面 -->
-<template>
-  <div class="hello">
-    <h1>{{msg}}</h1>
-  </div>
-</template>
 ```
 keep-alive生命周期钩子函数：activated、deactivated
 
@@ -584,3 +499,83 @@ beforeRouteEnter(to, from, next) {
 watch和computed各自处理的数据关系场景不同  
 (1).watch擅长处理的场景：一个数据影响多个数据  
 (2).computed擅长处理的场景：一个数据受多个数据影响。总价受到单价和数量的影响
+
+### 19 spa页面
+SPA的优点
+
+页面之间的切换非常快  
+一定程度上减少了后端服务器的压力（不用管页面逻辑和渲染）  
+后端程序只需要提供API，完全不用管客户端到底是Web界面还是手机等  
+
+SPA的缺点
+
+首屏打开速度很慢，因为用户首次加载需要先下载SPA框架及应用程序的代码，然后再渲染页面。  
+不利于SEO
+
+SEO：搜索引擎优化。SEO是一种通过了解搜索引擎的运作规则（如何抓取网站页面，如何索引以及如何根据特定的关键字展现搜索结果排序等）来调整网站，以提高该网站在搜索引擎中某些关键词的搜索结果排名。
+
+标题： 即HTML的 < title >标签，例如： < title>浅谈SPA、SEO、SSR | XXX 的博客< /title> 
+
+描述： 即HTML<meta>标签的description，例如百度百科的一个词条的 description
+
+关键字： 即HTML<meta>标签的keywords
+
+SSR  
+概述：SSR是 Server-Side Rendering(服务器端渲染)的缩写，在普通的SPA中，一般是将框架及网站页面代码发送到浏览器，然后在浏览器中生成和操作DOM（这里也是第一次访问SPA网站在同等带宽及网络延迟下比传统的在后端生成HTML发送到浏览器要更慢的主要原因），但其实也可以将SPA应用打包到服务器上，在服务器上渲染出HTML，发送到浏览器，这样的HTML页面还不具备交互能力，所以还需要与SPA框架配合，在浏览器上“混合”成可交互的应用程序。所以，只要能合理地运用SSR技术，不仅能一定程度上解决首屏慢的问题，还能获得更好的SEO。
+
+SSR的优点
+
+更快的响应时间，不用等待所有的JS都下载完成，浏览器便能显示比较完整的页面了。
+
+更好的SSR，我们可以将SEO的关键信息直接在后台就渲染成HTML，而保证搜索引擎的爬虫都能爬取到关键数据。
+
+SSR的缺点
+
+相对于仅仅需要提供静态文件的服务器，SSR中使用的渲染程序自然会占用更多的CPU和内存资源
+
+一些常用的浏览器API可能无法正常使用，比如window、docment和alert等，如果使用的话需要对运行的环境加以判断
+
+开发调试会有一些麻烦，因为涉及了浏览器及服务器，对于SPA的一些组件的生命周期的管理会变得复杂
+可能会由于某些因素导致服务器端渲染的结果与浏览器端的结果不一致。
+
+![](../assets/img/服务端渲染.png)
+
+ssr 有两个入口文件，client.js 和 server.js， 都包含了应用代码，webpack 通过两个入口文件分别打包成给服务端用的 server bundle 和给客户端用的 client bundle. 当服务器接收到了来自客户端的请求之后，会创建一个渲染器 bundleRenderer，这个 bundleRenderer 会读取上面生成的 server bundle 文件，并且执行它的代码， 然后发送一个生成好的 html 到浏览器，等到客户端加载了 client bundle 之后，会和服务端生成的DOM 进行 Hydration(判断这个DOM 和自己即将生成的DOM 是否相同，如果相同就将客户端的vue实例挂载到这个DOM上， 否则会提示警告)。
+
+## 20 vue 预渲染  prerender-spa-plugin
+这个配置只需要在 build 的时候可以生成预渲染好的html，所以应该配置在 build/webpack.prod.conf.js 这个文件里。
+```js
+// 在vue-cli生成的文件的基础上，只有下面这个才是我们要配置的
+new PrerenderSPAPlugin({
+    // 生成文件的路径，也可以与webpakc打包的一致。
+    // 下面这句话非常重要！！！
+    // 这个目录只能有一级，如果目录层次大于一级，在生成的时候不会有任何错误提示，在预渲染的时候只会卡着不动。
+    staticDir: path.join(__dirname, '../dist'),
+    
+    // 对应自己的路由文件，比如index有参数，就需要写成 /index/param1。
+    routes: ['/', '/index', '/skin', '/slimming', '/exercise', '/alPay', '/wxPay'],
+    
+    // 这个很重要，如果没有配置这段，也不会进行预编译
+    renderer: new Renderer({
+        inject: {
+          foo: 'bar'
+        },
+        headless: false,
+        // 在 main.js 中 document.dispatchEvent(new Event('render-event'))，两者的事件名称要对应上。
+        renderAfterDocumentEvent: 'render-event'
+    })
+```
+在 webpack.prod.conf.js 配置完成之后，然后再 main.js 里改成如下所示：
+```js
+new Vue({
+    el: '#app',
+    router,
+    store,
+    render: h => h(App),
+    
+    /* 这句非常重要，否则预渲染将不会启动 */
+    mounted () {
+        document.dispatchEvent(new Event('render-event'))
+    }
+})
+```
